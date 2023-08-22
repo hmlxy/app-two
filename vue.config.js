@@ -5,15 +5,16 @@ module.exports = defineConfig({
     devServer: {
         // 自动打开项目
         open: true,
+        // 设置代理和跨域
+        // proxy: {
+        //     "/api": {
+        //         // 访问/api时会自动跳转到target
+        //         target: "http://localhost:3000",
+        //         changeOrigin: true,
+        //         pathRewrite: {
+        //             "/api": "",
+        //         },
+        //     },
+        // },
     },
-    // loader-css默认scss，这里声明sass
-    // css: {
-    //     loaderOptions: {
-    //         sass: {
-    //             sassOptions: {
-    //                 indentedSyntax: true,
-    //             },
-    //         },
-    //     },
-    // },
 });

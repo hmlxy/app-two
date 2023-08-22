@@ -7,24 +7,33 @@ Vue.use(Router);
 
 // 创建routes配置
 const routes = [
+    // 根路由
     {
         path: "/",
         redirect: "/login",
-        component: () => import("../view/ViewLoginTwo.vue"),
+        component: () => import("../view/ViewLoginThree.vue"),
     },
+    // 登录
     {
         path: "/login",
         name: "login",
-        component: () => import("../view/ViewLoginTwo.vue"),
+        component: () => import("../view/ViewLoginThree.vue"),
     },
+    // 主页
     {
-        path: "/",
+        path: "/home",
         name: "main",
         // component: ViewMain
         // 推荐的路由懒加载
         component: () => import("../view/ViewMain.vue"),
         // 异步组件和懒加载是同一个东西
         // component: (resolve) => require(["../view/ViewMain.vue"], resolve),
+    },
+    // 404
+    {
+        path: "*",
+        name: "NotFound",
+        component: () => import("../view/ViewNotFound.vue"),
     },
 ];
 
