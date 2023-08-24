@@ -1,13 +1,27 @@
 <template>
     <div class="home">
-        <h1>app</h1>
-        <i class="fa fa-home"></i>
-        <el-button type="primary" size="default">button</el-button>
+        <el-container>
+            <CommonMenu></CommonMenu>
+            <el-container direction="vertical">
+                <CommonHeader></CommonHeader>
+
+                <el-main>
+                    <router-view></router-view>
+                </el-main>
+            </el-container>
+        </el-container>
     </div>
 </template>
 
 <script>
+import CommonHeader from "../components/CommonHeader.vue";
+import CommonMenu from "../components/CommonMenu.vue";
+
 export default {
+    components: {
+        CommonHeader,
+        CommonMenu,
+    },
     data() {
         return {};
     },
@@ -16,7 +30,9 @@ export default {
 
 <style lang="scss" scoped>
 .home {
-    color: black;
-    background-color: green;
+    height: 100vh;
+    .el-main {
+        height: 500px;
+    }
 }
 </style>

@@ -27,9 +27,10 @@ http.interceptors.response.use(
         // 对响应数据进行解析
         let { status, message } = response.data;
 
-        if (status === 200) {
-            Message({ message: message || "error", type: "warning" });
-        }
+        // 对响应进行弹窗
+        // if (status === 200) {
+        //     Message({ message: message || "error", type: "warning" });
+        // }
 
         return response;
     },

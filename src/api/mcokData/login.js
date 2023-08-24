@@ -16,6 +16,7 @@ export default {
                     status: 200,
                     token: Mock.Random.guid(),
                     message: "登录成功",
+                    username: username,
                 },
             };
         } else {

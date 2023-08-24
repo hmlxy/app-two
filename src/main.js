@@ -12,8 +12,8 @@ import "font-awesome/css/font-awesome.min.css";
 // 将 axios 实例绑定到 Vue 原型上,可以全局使用
 // Vue.prototype.axios = axios;
 
-// import http from "./request";
-// Vue.prototype.http = http; //这样声明后可以使用this.http访问axios封装实例
+import http from "./utils/request.js";
+Vue.prototype.http = http; //这样声明后可以使用this.http访问axios封装实例
 // 引入router
 import router from "./router";
 
