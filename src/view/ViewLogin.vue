@@ -2,7 +2,6 @@
     <div class="login">
         <el-card shadow="always">
             <h3>后台管理系统</h3>
-
             <!-- 键盘触发事件要使用native绑定form上 -->
             <el-form
                 hide-required-asterisk
@@ -32,8 +31,7 @@
 
 <script>
 import { nameRule, passswordRule } from "../utils/validate.js";
-import { getToken, setToken } from "../utils/token.js";
-import { Login } from "../api";
+import { postLogin } from "../utils/login";
 export default {
     data() {
         return {
@@ -49,36 +47,7 @@ export default {
     },
     methods: {
         onLogin(form) {
-            this.$refs["form"].validate((valid) => {
-                // 校验通过
-                if (valid) {
-                    // 发送给后端
-                    Login(this.form)
-                        .then((res) => {
-                            // 发送成功
-                            if (res.status === 200) {
-                                // 储存之后使用
-                                setToken("username", res.data.data.username);
-                                setToken("token", res.data.data.token);
-
-                                // 成功提示
-                                this.$message({
-                                    message: res.data.data.message,
-                                    type: "success",
-                                });
-                                // 路由跳转
-                                this.$router.push("/home");
-                            }
-                        })
-                        .catch((err) => {
-                            console.error(err);
-                        });
-                }
-                // 验证没有通过
-                else {
-                    console.error(this.form);
-                }
-            });
+            postLogin(this, "/login", form);
         },
     },
 };

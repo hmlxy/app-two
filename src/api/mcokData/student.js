@@ -14,7 +14,7 @@ for (let i = 0; i < count; i++) {
             id: Mock.Random.integer(Math.pow(10, 7), Math.pow(10, 8) - 1),
             name: Mock.Random.cname(),
             age: Mock.Random.integer(18, 60),
-            sex: Mock.Random.integer(1, 2),
+            sex: Mock.Random.integer(0, 1),
             father: Mock.Random.cname(),
             mather: Mock.Random.cname(),
             cla: Mock.mock("@integer(1,2)"),
@@ -22,6 +22,8 @@ for (let i = 0; i < count; i++) {
             time: Mock.Random.date("yyyy-MM-dd"),
             addr: Mock.mock("@county(true)"),
             phone: Mock.mock(/^1[0-9]{10}$/),
+            title: Mock.Random.ctitle(4, 10),
+            completed: Mock.Random.boolean(),
         })
     );
 }
@@ -64,7 +66,6 @@ export default {
         // delete没有body呀
         // 所以只能通过模拟了
         const name = config.url.split("/").pop();
-        console.log("执行查询");
 
         if (!name) {
             return {
@@ -133,6 +134,37 @@ export default {
         return {
             code: 20000,
             message: "编辑成功",
+        };
+    },
+
+    // 获取作业数据
+    getWorkData: (config) => {
+        let url = config.url;
+        // 获取处理pramas的特殊对象
+        const params = new URLSearchParams(url.split("?")[1]);
+        const page = params.get("page");
+        const size = params.get("size");
+
+        const works = [];
+        List.forEach((item) => {
+            works.push({
+                id: item.id,
+                name: item.name,
+                cla: item.cla,
+                title: item.title,
+                completed: item.completed,
+            });
+        });
+
+        // 匹配分页数据
+        const pageMatchData = works.slice((page - 1) * size, page * size);
+
+        return {
+            status: 200,
+            message: "获取数据成功",
+            data: pageMatchData,
+            // 我们也要有响应的思想，写成count就太死了
+            total: List.length,
         };
     },
 };

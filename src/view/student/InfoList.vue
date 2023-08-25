@@ -1,5 +1,5 @@
 <template>
-    <div class="infolist">
+    <div class="infomanage">
         <el-dialog
             :title="isAdd === true ? '新增用户' : '编辑用户'"
             :visible.sync="dialogVisible"
@@ -76,30 +76,9 @@
 
             <div slot="footer">
                 <el-button @click="dialogBeforeClose">取 消</el-button>
-                <el-button type="primary" @click="submitAdd">确 定</el-button>
+                <el-button type="primary" @click="submit">确 定</el-button>
             </div>
         </el-dialog>
-
-        <el-form :model="form" ref="form" label-width="80px" :inline="true" size="normal">
-            <el-form-item>
-                <el-button type="primary" @click="addUser">添加</el-button>
-            </el-form-item>
-            <div class="search-box">
-                <el-form-item label="" prop="name">
-                    <el-input
-                        suffix-icon="el-icon-search"
-                        v-model="form.name"
-                        placeholder="请输入姓名"
-                    ></el-input>
-                </el-form-item>
-                <!-- <el-form-item>
-                    <el-button type="primary" @click="onSearch">查询</el-button>
-                </el-form-item> -->
-                <el-form-item>
-                    <el-button type="primary" @click="reset">重置</el-button>
-                </el-form-item>
-            </div>
-        </el-form>
 
         <el-table :data="getPageData" style="width: 100%" height="500px">
             <el-table-column prop="name" label="姓名"> </el-table-column>
@@ -144,7 +123,8 @@
 </template>
 
 <script>
-import { infoDelete, seachrInfo, getInfoList, addUser, editUser } from "@/api";
+import { getData, changeInfo, deleteInfo, searchInfo } from "@/utils/table.js";
+
 export default {
     data() {
         return {
@@ -192,55 +172,18 @@ export default {
     },
     created() {
         // 初始化
-        this.getInfoData();
+        this.getTableData();
     },
-    methods: {
-        // 获取列表数据
-        getInfoData(params) {
-            getInfoList(params).then((res) => {
-                if (res.data.status === 200) {
-                    // 得到总共数据条数
 
-                    this.total = res.data.total;
-                    this.tableData = res.data.data;
-                    // 尽量不要修改原数据
-                    this.tableData.forEach((item) => {
-                        item.sex === 1 ? (item.sex_text = "男") : (item.sex_text = "女");
-                    });
-                }
-            });
+    methods: {
+        // 获取表格数据
+        getTableData() {
+            getData(this, "/student");
         },
 
         // 删除单个信息
         handleDelete(row) {
-            this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                type: "warning",
-            })
-                .then(() => {
-                    // 删除这一行
-                    infoDelete(row.id)
-                        .then((res) => {
-                            if (res.data.status === 200) {
-                                this.$message({
-                                    type: "success",
-                                    message: "删除成功!",
-                                });
-                                // 删除后重新获取数据
-                                this.getInfoData();
-                            }
-                        })
-                        .catch((err) => {
-                            console.error(err, "删除失败");
-                        });
-                })
-                .catch(() => {
-                    this.$message({
-                        type: "info",
-                        message: "已取消删除",
-                    });
-                });
+            deleteInfo(this, "/student", row.id, getData);
         },
         // 改变每页展示条数
         handleSizeChange(val) {
@@ -253,31 +196,19 @@ export default {
         },
         // 搜索
         onSearch() {
-            seachrInfo(this.form.name)
-                .then((res) => {
-                    console.log(res, "res");
-                    this.tableData = res.data.searchList;
-                    // 尽量不要修改原数据
-                    this.tableData.forEach((item) => {
-                        item.sex === 1 ? (item.sex_text = "男") : (item.sex_text = "女");
-                    });
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
+            searchInfo(this, "/info", this.form.name);
         },
         // 重置
         reset() {
-            this.getInfoData();
+            this.getTableData();
         },
-        // 添加
-        addUser() {
-            // 打开添加弹窗
+        // 打开添加弹窗
+        createStudent() {
             this.isAdd = true;
             this.dialogVisible = true;
         },
 
-        // 点击关闭弹窗时的执行
+        //关闭添加弹窗
         dialogBeforeClose() {
             // 清理之前的form数据
             this.$refs.formAdd.resetFields();
@@ -286,30 +217,18 @@ export default {
         },
 
         // 提交添加
-        submitAdd() {
+        submit() {
             this.$refs.formAdd.validate((valid) => {
                 // 验证成功
                 if (valid) {
                     // 判断是新增还是编辑
                     if (this.isAdd === true) {
-                        addUser(this.formAdd).then(() => {
-                            // 新增用户后更新用户列表
-                            this.getInfoData();
-                        });
+                        // 封装的接口，post时为新增
+                        changeInfo(this, "post", "/student", this.formAdd, getData);
                     } else {
-                        editUser(this.formAdd).then(() => {
-                            // 编辑用户后更新用户列表
-                            this.getInfoData();
-                        });
+                        // 封装的接口，put时为编辑
+                        changeInfo(this, "put", "/student", this.formAdd, getData);
                     }
-
-                    // 后续对表单数据的处理
-
-                    // 关闭弹窗
-                    this.dialogVisible = false;
-
-                    // 清理之前的form数据
-                    this.$refs.formAdd.resetFields();
                 }
             });
         },
@@ -338,7 +257,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.infolist {
+.infomanage {
     position: relative;
     height: 100%;
     .el-form {
