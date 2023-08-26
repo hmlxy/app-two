@@ -12,21 +12,21 @@ const routes = [
         path: "/",
         redirect: "/login",
         hidden: true,
-        component: () => import("../view/ViewLogin.vue"),
+        component: () => import("../view/login/ViewLogin.vue"),
     },
     // 登录
     {
         path: "/login",
         name: "login",
         hidden: true,
-        component: () => import("../view/ViewLogin.vue"),
+        component: () => import("../view/login/ViewLogin.vue"),
     },
     // 404
     {
         path: "*",
         name: "NotFound",
         hidden: true,
-        component: () => import("../view/ViewNotFound.vue"),
+        component: () => import("../view/errorview/ViewNotFound.vue"),
     },
     // 学生
     {

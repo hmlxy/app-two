@@ -20,7 +20,7 @@ export default {};
 .not-found {
     height: 100vh;
     position: relative;
-    background: url("../assets/images/2.png") center no-repeat;
+    background: url("@/assets/images/2.png") center no-repeat;
     background-size: cover;
     .wrapper {
         position: absolute;

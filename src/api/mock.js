@@ -1,8 +1,8 @@
 import Mock from "mockjs";
-// 记得去main.js导入才能使用
+// 记得去main.js导入才能使用mockjs
 import login from "./mcokData/login";
 import student from "./mcokData/student";
-
+import echarts from "./mcokData/echarts";
 // 登录拦截
 Mock.mock(/api\/login/, "post", login.getLogin);
 
@@ -22,3 +22,6 @@ Mock.mock(/^\/api\/student/, "put", student.updateStudent);
 
 // 作业数据拦截
 Mock.mock(/^\/api\/works/, "get", student.getWorkData);
+
+// 图表数据拦截
+Mock.mock(/^\/api\/dataview/, "get", echarts.getEChartsData);

@@ -2,7 +2,7 @@
     <el-aside width="220px">
         <div class="aside-menu">
             <p class="title">通用管理系统</p>
-            <el-menu router unique-opened text-color="#fff" :default-openeds="defaultOpeneds">
+            <el-menu router unique-opened text-color="#fff">
                 <el-submenu v-for="item in filteredMenus" :key="item.name" :index="item.name">
                     <template slot="title">
                         <i :class="item.iconClass" class="menu-icon"></i>
@@ -26,8 +26,8 @@ export default {
     data() {
         return {
             menus: [],
-            // 默认打开的submenu
-            defaultOpeneds: ["学生管理"],
+            // 这也意味着submenu的打开
+            // openeds: ["学生管理"],
         };
     },
     created() {

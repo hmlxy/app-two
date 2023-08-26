@@ -6,7 +6,7 @@ export function postLogin(root, url, data) {
         // 校验通过
         if (valid) {
             // 发送给后端
-            root.http
+            root.$http
                 .post(url, root.form)
                 .then((res) => {
                     // 发送成功

@@ -3,7 +3,7 @@
 // 获取表格的数据
 // root表示this，url是路由，params是参数
 export function getData(root, url, params) {
-    root.http
+    root.$http
         .get(url, { params: params || {} })
         .then((res) => {
             if (res.data.status === 200) {
@@ -27,7 +27,7 @@ export function getData(root, url, params) {
 
 // 新增和修改学生
 export function changeInfo(root, method, url, data, callback) {
-    root.http[method](url, data)
+    root.$http[method](url, data)
         .then((res) => {
             // 回到函数，代表添加后重新获取数据
             callback(root, url);
@@ -52,7 +52,7 @@ export function deleteInfo(root, url, id, callback) {
     })
         .then(() => {
             // 使用字符串拼接获取具体的url
-            root.http
+            root.$http
                 .delete(`${url}/${id}`, id)
                 .then((res) => {
                     if (res.data.status === 200) {
@@ -78,7 +78,7 @@ export function deleteInfo(root, url, id, callback) {
 
 // 搜索学生
 export function searchInfo(root, url, params) {
-    root.http
+    root.$http
         .get(`${url}/${params}`, params)
         .then((res) => {
             root.tableData = res.data.searchList;
@@ -99,7 +99,7 @@ export function searchInfo(root, url, params) {
 
 // 获取作业数据
 export function getWorkData(root, url, params) {
-    root.http
+    root.$http
         .get(url, { params: params || {} })
         .then((res) => {
             if (res.data.status === 200) {
