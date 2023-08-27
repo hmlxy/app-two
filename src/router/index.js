@@ -10,6 +10,7 @@ const routes = [
     // 根路由
     {
         path: "/",
+        name: "首页",
         redirect: "/login",
         hidden: true,
         component: () => import("../view/login/ViewLogin.vue"),
@@ -140,6 +141,7 @@ router.beforeEach((to, from, next) => {
         // 那么自动跳转首页
         next({ name: "学生列表" });
     } else {
+        // 根据路由自动跳转
         next();
     }
 });

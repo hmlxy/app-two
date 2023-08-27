@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import chinaJson from "echarts/map/json/china.json";
+import shanghaiJson from "echarts/map/json/province/shanghai.json";
 export default {
     data() {
         return {};
@@ -20,13 +20,12 @@ export default {
             // 将chinajson的数据命名为china注册到ECharts库中
             // 常常是自定义地图数据集的时候使用
             // 这里的name也就是option中配置的名字
-            this.$echarts.registerMap("china", chinaJson);
-            console.log(chinaJson, "chinaJson");
+            this.$echarts.registerMap("shanghai", shanghaiJson);
 
             // 地图配置
             // 必须要geo或者series之一
             let option = {
-                backgroundColor: "blue", // 设置地图的背景色
+                backgroundColor: "green", // 设置地图的背景色
                 // 地理坐标系组件
                 // geo和series几乎要都设置相似属性
                 // geo: {
@@ -52,7 +51,7 @@ export default {
                         type: "map",
                         zoom: 1.2,
                         // 配置地图地区
-                        map: "china",
+                        map: "shanghai",
                         // 配置item元素的样式
 
                         itemStyle: {

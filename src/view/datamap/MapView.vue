@@ -21,7 +21,6 @@ export default {
             // 常常是自定义地图数据集的时候使用
             // 这里的name也就是option中配置的名字
             this.$echarts.registerMap("china", chinaJson);
-            console.log(chinaJson, "chinaJson");
 
             // 地图配置
             // 必须要geo或者series之一
